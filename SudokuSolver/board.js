@@ -2,7 +2,6 @@ class Board{
   constructor(filename, boxes = null){
     if(boxes == null){ this.boxes = this.makebordFromFile(filename);}
     else{ this.boxes = boxes; }
-    this.adjustBoxOptions();
   }
 
   makebordFromFile(preboard){
@@ -38,19 +37,24 @@ class Board{
 
   adjustBoxOptions(){
     for(let i = 0; i<this.boxes.length; i++){
-      let rowNums = this.getNumbersInRow(i);
       for(let j = 0; j < this.boxes[i].length; j++){
-        let colNums = this.getNumbersInCol(j);
-        let gridNums = this.getNumbersInGrid(i,j);
-        let neightBours = concat(rowNums, colNums);
-        neightBours = concat(neightBours, gridNums);
+        let gridNum = this.boxes[i][j].gridNum;
+        let neightBours = this.getAllNeightBours(i,j, gridNum);
         this.boxes[i][j].adjustOptios(neightBours);
       }
     }
   }
 
-  solve(){
+  getAllNeightBours(i,j, gridNum){
+    let result = this.getNumbersInRow(i);
+    result = concat(result, this.getNumbersInCol(j));
+    result = concat(result, this.getNumbersInGrid(gridNum));
+    return result;
 
+  }
+
+  solve(){
+    this.adjustBoxOptions();
   }
 
   getNumbersInRow(rowNum){ //rowNum from 0-8;
@@ -81,8 +85,6 @@ class Board{
     return result;
   }
 
-
-
   show(){
     for(let j = 0; j < this.boxes.length; j++){
       for(let k = 0; k < this.boxes[j].length; k++){
@@ -90,9 +92,21 @@ class Board{
       }
     }
   }
+
+  isFinished(){
+    for(let array of this.boxes){
+      for(let box of array){
+        if(box.number == 0){
+          return false
+        }
+      }
+    }
+    return true;
+  }
+
+
+
 }
-
-
 
 class Box{
   constructor(integer, x, y){
@@ -105,7 +119,6 @@ class Box{
     this.options = [];
     this.gridNum = null;
   }
-
 
   setBC(i, j){ //set the backgroundColor
     if( ( i <= 2 && (j<=2 || j>=6)) ||
@@ -153,9 +166,10 @@ class Box{
     if(this.number == 0){
       let result = this.options.filter(num => ! listOfAllNeighbours.map(Number).includes(num));
       this.options = result;
-      // if(this.options.length == 1){
-      //   this.number = this.options[0];
-      // }
+      if(this.options.length == 1){
+        this.bc = color(0,255,0,100);
+        this.number = this.options[0];
+      }
     }
 
   }

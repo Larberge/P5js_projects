@@ -16,6 +16,9 @@ function setup(){
 
 function draw(){
   canvas.position(windowWidth/2 - width/2, windowHeight/2 - height/2);
+  board.solve();
+  if(board.isFinished()){
+    noLoop();
+  }
   board.show();
-
 }
