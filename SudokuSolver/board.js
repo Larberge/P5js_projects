@@ -36,13 +36,18 @@ class Board{
 
 
   adjustBoxOptions(){
+    let returnVal = false;
     for(let i = 0; i<this.boxes.length; i++){
       for(let j = 0; j < this.boxes[i].length; j++){
         let gridNum = this.boxes[i][j].gridNum;
         let neightBours = this.getAllNeightBours(i,j, gridNum);
-        this.boxes[i][j].adjustOptios(neightBours);
+        let val = this.boxes[i][j].adjustOptios(neightBours);
+        if(val){
+          returnVal = val;
+        }
       }
     }
+    return returnVal;
   }
 
   getAllNeightBours(i,j, gridNum){
@@ -53,9 +58,39 @@ class Board{
 
   }
 
+
+
   solve(){
-    this.adjustBoxOptions();
+    let stillEasyOnceToFind = this.adjustBoxOptions(); //false if no more easy once to find
+    if(! stillEasyOnceToFind){
+      for(let i = 0; i < this.boxes.length; i++){
+        let rowNums = this.getNumbersInRow(i);
+        for(let n = 1; n < 10; n++){
+          if(! rowNums.includes(n)){
+            let count = 0;
+            let boxesToHoldN = [];
+            for(let j = 0; j < this.boxes[i].length; j++){
+              if(this.boxes[i][j].options.includes(n)){
+                count++;
+                boxesToHoldN.push([i,j]);
+              }
+            }
+            if(boxesToHoldN.length == 1){
+              let i = boxesToHoldN[0][0];
+              let j = boxesToHoldN[0][1];
+              this.boxes[i][j].number = n;
+              this.boxes[i][j].options = [];
+              this.adjustBoxOptions();
+            }
+          }
+        }
+      }
+
+
+    }
   }
+
+
 
   getNumbersInRow(rowNum){ //rowNum from 0-8;
     let result = [];
@@ -103,10 +138,13 @@ class Board{
     }
     return true;
   }
-
-
-
 }
+
+
+
+
+
+
 
 class Box{
   constructor(integer, x, y){
@@ -163,14 +201,22 @@ class Box{
   }
 
   adjustOptios(listOfAllNeighbours){
+    let returnVal = false;
     if(this.number == 0){
       let result = this.options.filter(num => ! listOfAllNeighbours.map(Number).includes(num));
-      this.options = result;
+      if(this.options.toString() != result.toString()){
+        this.options = result;
+
+        returnVal = true;
+      }
+      //console.log(this.options);
       if(this.options.length == 1){
         this.bc = color(0,255,0,100);
         this.number = this.options[0];
       }
     }
+    //console.log(returnVal, "<---");
+    return returnVal;
 
   }
 
