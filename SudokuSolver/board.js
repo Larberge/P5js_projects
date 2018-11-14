@@ -1,3 +1,4 @@
+var c = 0;
 class Board{
   constructor(filename, boxes = null){
     if(boxes == null){ this.boxes = this.makebordFromFile(filename);}
@@ -17,7 +18,7 @@ class Board{
     for(let j = 0; j < preBoard.length; j++){
       let subResult = [];
       for(let k = 0; k < preBoard[j].length; k++){
-        let box = new Box(preBoard[j][k], x, y);
+        let box = new Box(parseInt(preBoard[j][k]), x, y);
         box.setGridNum(j,k);
         x += width/9
         subResult.push(box);
@@ -44,6 +45,8 @@ class Board{
         let val = this.boxes[i][j].adjustOptios(neightBours);
         if(val){
           returnVal = val;
+          // j = 1000;
+          // i = 0;
         }
       }
     }
@@ -55,7 +58,6 @@ class Board{
     result = concat(result, this.getNumbersInCol(j));
     result = concat(result, this.getNumbersInGrid(gridNum));
     return result;
-
   }
 
   solve(){
@@ -63,12 +65,10 @@ class Board{
     this.solveGrids();
     this.solveRows();
     this.solveCols();
-    let stillEasyOnceToFind = this.adjustBoxOptions(); //false if no more easy once to find
-    if(! stillEasyOnceToFind){
-      //recursive function
-
-
-    }
+    c++;
+    // if(c == 10){
+    //   noLoop();
+    // }
   }
 
   solveGrids(){
@@ -84,12 +84,14 @@ class Board{
             }
           }
         }
+
         if(boxesThatCanHoldN.length == 1){
           boxesThatCanHoldN[0].number = n;
           boxesThatCanHoldN[0].options = [];
-          this.adjustBoxOptions();
+          boxesThatCanHoldN[0].bc = color(255,255,0,100); //yellow
         }
       }
+    this.adjustBoxOptions();
     }
   }
 
@@ -111,36 +113,49 @@ class Board{
             let j = boxesToHoldN[0][1];
             this.boxes[i][j].number = n;
             this.boxes[i][j].options = [];
-            this.adjustBoxOptions();
+            this.boxes[i][j].bc = color(0,255,255,100); //tercoise
           }
         }
       }
+      this.adjustBoxOptions();
     }
   }
 
   solveCols(){
-    for(let i = 0; i < this.boxes.length; i++){
-      let colNums = this.getNumbersInCol(i);
-      for(let n = 1; n < 10; n++){
-        if(! colNums.includes(n)){
-          let count = 0;
-          let boxesToHoldN = [];
-          for(let j = 0; j < this.boxes.length; j++){
-            if(this.boxes[j][i].options.includes(n)){
-              count++;
-              boxesToHoldN.push([i,j]);
+    let oneToNine = [1,2,3,4,5,6,7,8,9];
+    for(let colNum = 0; colNum < this.boxes[0].length; colNum++){
+      let numbersInCol = this.getNumbersInCol(colNum);
+      let boxesInCol = this.getBoxesInCol(colNum);
+      if(numbersInCol.length < 9){
+        let numbersToCheck = oneToNine.filter(num => ! numbersInCol.includes(num));
+        for(let n of numbersToCheck){
+          let boxesThatCanHoldN = [];
+          for(let box of boxesInCol){
+            if(box.options.includes(n)){
+              boxesThatCanHoldN.push(box);
             }
           }
-          if(boxesToHoldN.length == 1){
-            let i = boxesToHoldN[0][0];
-            let j = boxesToHoldN[0][1];
-            this.boxes[i][j].number = n;
-            this.boxes[i][j].options = [];
-            this.adjustBoxOptions();
+          if(boxesThatCanHoldN.length == 1){
+            boxesThatCanHoldN[0].number = n;
+            boxesThatCanHoldN[0].options = [];
+            boxesThatCanHoldN[0].bc = color(0,0,255,100);
           }
         }
       }
+      this.adjustBoxOptions();
     }
+  }
+
+  getBoxesInCol(colNum){
+    let result = [];
+    for(let row of this.boxes){
+      result.push(row[colNum]);
+    }
+    return result;
+  }
+
+  getBoxesInRow(rowNum){
+    return this.boxes[rowNum];
   }
 
   getBoxesInGrid(gridNum){
@@ -171,6 +186,7 @@ class Board{
     for(let box of this.boxes[rowNum]){
       result.push(box.number);
     }
+    result = result.filter(num => num != 0 );
     return result;
   }
 
@@ -179,6 +195,7 @@ class Board{
     for(let i = 0; i< this.boxes.length; i++){
       result.push(this.boxes[i][colNum].number);
     }
+    result = result.filter(num => num != 0 );
     return result;
   }
 
@@ -191,6 +208,7 @@ class Board{
         }
       }
     }
+    result = result.filter(num => num != 0 );
     return result;
   }
 
@@ -212,6 +230,8 @@ class Board{
     }
     return true;
   }
+
+
 }
 
 
@@ -223,7 +243,7 @@ class Box{
     this.y = y;
     this.w = width/9 -1;
     this.h = height/9 -1;
-    this.number = integer;
+    this.number = integer; //must be integer, not stringrepresentation
     this.options = [];
     this.gridNum = null;
   }
@@ -238,7 +258,7 @@ class Box{
       this.bc = color(150); }
   }
 
-  setOptions(){
+  setOptions(){ //only used to initialize!!!
     if(this.number == 0){ this.options = [1,2,3,4,5,6,7,8,9]; }
   }
 
@@ -250,10 +270,7 @@ class Box{
     rect(this.x,this.y, this.w, this.h);
     fill(0);
     textSize(22);
-    if(this.number == 0){
-      text("", this.x +offSetW, this.y + offSetH, this.w, this.h);
-    }
-    else{
+    if(this.number != 0){
       text(this.number, this.x +offSetW, this.y + offSetH, this.w, this.h);
     }
   }
@@ -273,19 +290,17 @@ class Box{
   adjustOptios(listOfAllNeighbours){
     let returnVal = false;
     if(this.number == 0){
-      let result = this.options.filter(num => ! listOfAllNeighbours.map(Number).includes(num));
+      let result = this.options.filter(num => ! listOfAllNeighbours.includes(num));
       if(this.options.toString() != result.toString()){
         this.options = result;
-
         returnVal = true;
       }
-      //console.log(this.options);
       if(this.options.length == 1){
         this.bc = color(0,255,0,100);
         this.number = this.options[0];
+        this.options = [];
       }
     }
-    //console.log(returnVal, "<---");
     return returnVal;
 
   }
