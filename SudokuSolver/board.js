@@ -2,6 +2,7 @@ class Board{
   constructor(filename, boxes = null){
     if(boxes == null){ this.boxes = this.makebordFromFile(filename);}
     else{ this.boxes = boxes; }
+
   }
 
   makebordFromFile(preboard){
@@ -57,16 +58,38 @@ class Board{
 
   }
 
-
-
   solve(){
+    this.adjustBoxOptions();
+    this.solveGrids();
+    this.solveRows();
+    this.solveCols();
     let stillEasyOnceToFind = this.adjustBoxOptions(); //false if no more easy once to find
     if(! stillEasyOnceToFind){
-      this.solveRows();
-      this.solveCols();
-      //this.solveGrids();
+      //recursive function
 
 
+    }
+  }
+
+  solveGrids(){
+    for(let gridNum = 0; gridNum < 9; gridNum++){
+      let boxesInGrid = this.getBoxesInGrid(gridNum);
+      let numbersInGrid = this.getNumbersInGrid(gridNum);
+      for(let n = 1; n < 10; n++){
+        let boxesThatCanHoldN = [];
+        if(! numbersInGrid.includes(n)){
+          for(let box of boxesInGrid){
+            if(box.options.includes(n)){
+              boxesThatCanHoldN.push(box);
+            }
+          }
+        }
+        if(boxesThatCanHoldN.length == 1){
+          boxesThatCanHoldN[0].number = n;
+          boxesThatCanHoldN[0].options = [];
+          this.adjustBoxOptions();
+        }
+      }
     }
   }
 
@@ -120,7 +143,28 @@ class Board{
     }
   }
 
-
+  getBoxesInGrid(gridNum){
+    let iMax = null; let iMin = null;
+    let jMax = null; let jMin = null;
+    switch (gridNum) {
+      case 0: iMin = 0; iMax = 2; jMin = 0; jMax = 2; break;
+      case 1: iMin = 0; iMax = 2; jMin = 3; jMax = 5; break;
+      case 2: iMin = 0; iMax = 2; jMin = 6; jMax = 8; break;
+      case 3: iMin = 3; iMax = 5; jMin = 0; jMax = 2; break;
+      case 4: iMin = 3; iMax = 5; jMin = 3; jMax = 5; break;
+      case 5: iMin = 3; iMax = 5; jMin = 6; jMax = 8; break;
+      case 6: iMin = 6; iMax = 8; jMin = 0; jMax = 2; break;
+      case 7: iMin = 6; iMax = 8; jMin = 3; jMax = 5; break;
+      case 8: iMin = 6; iMax = 8; jMin = 6; jMax = 8; break;
+    }
+    let result = [];
+    for(let i = iMin; i <= iMax; i++){
+      for(let j = jMin; j <= jMax; j++){
+        result.push(this.boxes[i][j]);
+      }
+    }
+    return result;
+  }
 
   getNumbersInRow(rowNum){ //rowNum from 0-8;
     let result = [];
@@ -169,10 +213,6 @@ class Board{
     return true;
   }
 }
-
-
-
-
 
 
 

@@ -4,7 +4,7 @@ var pretxt;
 var txt;
 
 function preload() {
-  pretxt = loadStrings("hard.txt");
+  pretxt = loadStrings("medium.txt");
 }
 
 function setup(){
