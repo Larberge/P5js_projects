@@ -34,7 +34,6 @@ class Board{
     return result;
   }
 
-
   adjustBoxOptions(){
     let returnVal = false;
     for(let i = 0; i<this.boxes.length; i++){
@@ -63,30 +62,61 @@ class Board{
   solve(){
     let stillEasyOnceToFind = this.adjustBoxOptions(); //false if no more easy once to find
     if(! stillEasyOnceToFind){
-      for(let i = 0; i < this.boxes.length; i++){
-        let rowNums = this.getNumbersInRow(i);
-        for(let n = 1; n < 10; n++){
-          if(! rowNums.includes(n)){
-            let count = 0;
-            let boxesToHoldN = [];
-            for(let j = 0; j < this.boxes[i].length; j++){
-              if(this.boxes[i][j].options.includes(n)){
-                count++;
-                boxesToHoldN.push([i,j]);
-              }
+      this.solveRows();
+      this.solveCols();
+      //this.solveGrids();
+
+
+    }
+  }
+
+  solveRows(){
+    for(let i = 0; i < this.boxes.length; i++){
+      let rowNums = this.getNumbersInRow(i);
+      for(let n = 1; n < 10; n++){
+        if(! rowNums.includes(n)){
+          let count = 0;
+          let boxesToHoldN = [];
+          for(let j = 0; j < this.boxes[i].length; j++){
+            if(this.boxes[i][j].options.includes(n)){
+              count++;
+              boxesToHoldN.push([i,j]);
             }
-            if(boxesToHoldN.length == 1){
-              let i = boxesToHoldN[0][0];
-              let j = boxesToHoldN[0][1];
-              this.boxes[i][j].number = n;
-              this.boxes[i][j].options = [];
-              this.adjustBoxOptions();
-            }
+          }
+          if(boxesToHoldN.length == 1){
+            let i = boxesToHoldN[0][0];
+            let j = boxesToHoldN[0][1];
+            this.boxes[i][j].number = n;
+            this.boxes[i][j].options = [];
+            this.adjustBoxOptions();
           }
         }
       }
+    }
+  }
 
-
+  solveCols(){
+    for(let i = 0; i < this.boxes.length; i++){
+      let colNums = this.getNumbersInCol(i);
+      for(let n = 1; n < 10; n++){
+        if(! colNums.includes(n)){
+          let count = 0;
+          let boxesToHoldN = [];
+          for(let j = 0; j < this.boxes.length; j++){
+            if(this.boxes[j][i].options.includes(n)){
+              count++;
+              boxesToHoldN.push([i,j]);
+            }
+          }
+          if(boxesToHoldN.length == 1){
+            let i = boxesToHoldN[0][0];
+            let j = boxesToHoldN[0][1];
+            this.boxes[i][j].number = n;
+            this.boxes[i][j].options = [];
+            this.adjustBoxOptions();
+          }
+        }
+      }
     }
   }
 
