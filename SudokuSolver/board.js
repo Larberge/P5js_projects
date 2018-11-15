@@ -61,7 +61,7 @@ class Board{
   }
 
   solve(){
-    this.adjustBoxOptions();
+    let dontTryHarder = this.adjustBoxOptions();
     this.solveGrids();
     this.solveRows();
     this.solveCols();
@@ -69,6 +69,11 @@ class Board{
     // if(c == 10){
     //   noLoop();
     // }
+
+
+    if(! dontTryHarder){
+      //recursive function;
+    }
   }
 
   solveGrids(){
@@ -84,11 +89,16 @@ class Board{
             }
           }
         }
-
         if(boxesThatCanHoldN.length == 1){
           boxesThatCanHoldN[0].number = n;
           boxesThatCanHoldN[0].options = [];
           boxesThatCanHoldN[0].bc = color(255,255,0,100); //yellow
+        }
+        else{
+          //check if the boxes that can hold n er in the same col or row
+          if(this.areInSameRow(boxesThatCanHoldN)){
+
+          }
         }
       }
     this.adjustBoxOptions();
@@ -210,6 +220,21 @@ class Board{
     }
     result = result.filter(num => num != 0 );
     return result;
+  }
+
+  areInSameRow(listOfBoxes){
+    for(let row of this.boxes){
+      let i = 0;
+      for(let box of listOfBoxes){
+        if(row.includes(box)){
+          i++;
+        }
+      }
+      if(i = listOfBoxes.length){
+        return true;
+      }
+    }
+    return false;
   }
 
   show(){
