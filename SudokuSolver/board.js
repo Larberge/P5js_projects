@@ -141,10 +141,16 @@ class Board{
         //If there are several boxes in the grid that can hold n AND thay are
         //in the same row: Loop through the row and check the boxes that are
         //not in the same grid. If they have n in their options, remove n the options.
+        //Does the same for  columns.
         if(boxesThatCanHoldN.length > 1){
-          let res = this.areInSameRow(boxesThatCanHoldN); //checks if boxes that can hold n are in the same row
-          let inSameRow = res[0]; //will be true or false
-          let rowIndex = res[1];
+
+          let resOne = this.areInSameRow(boxesThatCanHoldN); //checks if boxes that can hold n are in the same row
+          let resTwo = this.areInSameCol(boxesThatCanHoldN, gridNum); //checks if boxes that can hold n are in the same column.
+          let inSameRow = resOne[0]; //will be true or false
+          let rowIndex = resOne[1]; //will be null or the row index
+          let inSameCol = resTwo[0]; //will be true or false
+          let colIndex = resTwo[1]; //will be null or the col index
+
           if(inSameRow){
            let boxesInRow = this.getBoxesInRow(rowIndex);
            for(let box of boxesInRow){
@@ -159,8 +165,21 @@ class Board{
              }
            }
           }
+          if(inSameCol){
+            let boxesInCol = this.getBoxesInCol(colIndex);
+            for(let box of boxesInCol){
+              if(box.gridNum != gridNum && box.options.includes(n) ){
+                let i = box.options.indexOf(n);
+                box.options.splice(i,1);
+                if(box.options.length == 1){
+                   box.number = box.options[0];
+                   box.options = [];
+                   box.bc = color(255,255,0,100); //yellow
+                }
+              }
+            }
+          }
         }
-
       }
     this.adjustBoxOptions();
     }
@@ -285,7 +304,7 @@ class Board{
   }
 
   areInSameRow(listOfBoxes){
-    let index = null;
+    let rowIndex = null;
     for(let row of this.boxes){
       let i = 0;
       for(let box of listOfBoxes){
@@ -294,11 +313,38 @@ class Board{
         }
       }
       if(i == listOfBoxes.length){
-        index = this.boxes.indexOf(row);
-        return [true , index];
+        rowIndex = this.boxes.indexOf(row);
+        return [true , rowIndex];
       }
     }
-    return [false, null];
+    return [false, rowIndex];
+  }
+
+  areInSameCol(listOfBoxes, gridNum){
+    let colIndex = null;
+    let colMin = null;
+    let colMax = null;
+
+    switch (gridNum) {
+      case 0: case 3: case 6: colMin = 0; colMax = 2; break;
+      case 1: case 4: case 7: colMin = 3; colMax = 5; break;
+      case 2: case 5: case 8: colMin = 6; colMax = 8; break;
+    }
+
+    for(let colNum = colMin; colNum <= colMax; colNum++){
+      let boxesInColumn = this.getBoxesInCol(colNum);
+      let count = 0;
+      for(let box of listOfBoxes){
+        if(boxesInColumn.includes(box)){
+          count++;
+        }
+      }
+      if(count == listOfBoxes.length){
+        colIndex = colNum;
+        return[true, colIndex];
+      }
+    }
+    return [false, colIndex];
   }
 
   show(){
