@@ -62,19 +62,62 @@ class Board{
 
   solve(){
     let dontTryHarder = this.adjustBoxOptions();
+    this.solveCols();
+    this.solveRows();
     this.solveGrids();
-    //this.solveRows();
-    //this.solveCols();
+
     c++;
-    if(c == 3){
-      noLoop();
-    }
+
+
+    // if(c == 3){
+    //   noLoop();
+    // }
 
 
     if(! dontTryHarder){
       //recursive function;
     }
   }
+
+  // solveGirdTesting(){
+  //   for(let gridNum = 0; gridNum < 9; gridNum++){
+  //     let boxesInGrid = this.getBoxesInGrid(gridNum);
+  //     let numbersInGrid = this.getNumbersInGrid(gridNum);
+  //     for(let n = 1; n < 10; n++){
+  //       let boxesThatCanHoldN = [];
+  //       if(! numbersInGrid.includes(n)){
+  //         for(let box of boxesInGrid){
+  //           if(box.options.includes(n)){
+  //             boxesThatCanHoldN.push(box);
+  //           }
+  //         }
+  //         console.log(boxesThatCanHoldN,"N: "+ n,"Grid: " + gridNum);
+  //         if(boxesThatCanHoldN.length > 1){
+  //           let res = this.areInSameRow(boxesThatCanHoldN); //checks if boxes that can hold n are in the same row
+  //           let inSameRow = res[0]; //will be true or false
+  //           let rowIndex = res[1];
+  //           if(inSameRow){
+  //           console.log("row: "+rowIndex);
+  //            let boxesInRow = this.getBoxesInRow(rowIndex);
+  //            for(let box of boxesInRow){
+  //              if(box.gridNum != gridNum && box.options.includes(n)){
+  //                console.log(box);
+  //                let i = box.options.indexOf(n);
+  //                box.options.splice(i, 1);
+  //                if(box.options.length == 1){
+  //                   box.number = box.options[0];
+  //                   box.options = [];
+  //                   box.bc = color(255,255,0,100); //yellow
+  //                }
+  //              }
+  //            }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
 
   solveGrids(){
     for(let gridNum = 0; gridNum < 9; gridNum++){
@@ -94,32 +137,26 @@ class Board{
           boxesThatCanHoldN[0].options = [];
           boxesThatCanHoldN[0].bc = color(255,255,0,100); //yellow
         }
-        else{
-        //   let res = this.areInSameRow(boxesThatCanHoldN);
-        //   // if(res[0] == true){
-        //   //   console.log(n);
-        //   //   console.log(boxesThatCanHoldN);
-        //   //   noLoop();
-        //   // }
-        //   let inSameRow = res[0]; //check if the boxes that can hold n er in the same col or row
-        //   let index = res[1];
-        //   if(inSameRow){
-        //     let boxesInRow = this.getBoxesInRow(index);
-        //     for(let box of boxesInRow){
-        //       if(box.gridNum != gridNum){
-        //         if(box.options.includes(n)){
-        //           let i = box.options.indexOf(n);
-        //           box.options.splice(i, 1);
-        //           // if(box.options.length == 1){
-        //           //   box.number = box.options[0];
-        //           //   box.options = [];
-        //           //   box.bc = color(255,255,0,100); //yellow
-        //           // }
-        //         }
-        //       }
-        //     }
-        //   }
+        if(boxesThatCanHoldN.length > 1){
+          let res = this.areInSameRow(boxesThatCanHoldN); //checks if boxes that can hold n are in the same row
+          let inSameRow = res[0]; //will be true or false
+          let rowIndex = res[1];
+          if(inSameRow){
+           let boxesInRow = this.getBoxesInRow(rowIndex);
+           for(let box of boxesInRow){
+             if(box.gridNum != gridNum && box.options.includes(n)){
+               let i = box.options.indexOf(n);
+               box.options.splice(i, 1);
+               if(box.options.length == 1){
+                  box.number = box.options[0];
+                  box.options = [];
+                  box.bc = color(255,255,0,100); //yellow
+               }
+             }
+           }
+          }
         }
+
       }
     this.adjustBoxOptions();
     }
@@ -168,7 +205,7 @@ class Board{
           if(boxesThatCanHoldN.length == 1){
             boxesThatCanHoldN[0].number = n;
             boxesThatCanHoldN[0].options = [];
-            boxesThatCanHoldN[0].bc = color(0,0,255,100);
+        boxesThatCanHoldN[0].bc = color(0,0,255,100);
           }
         }
       }
@@ -182,6 +219,7 @@ class Board{
       result.push(row[colNum]);
     }
     return result;
+
   }
 
   getBoxesInRow(rowNum){

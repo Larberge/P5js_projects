@@ -4,7 +4,7 @@ var pretxt;
 var txt;
 
 function preload() {
-  pretxt = loadStrings("hard.txt");
+  pretxt = loadStrings("veryhard.txt");
 }
 
 function setup(){
@@ -14,7 +14,6 @@ function setup(){
 
 }
 
-let count = 0
 function draw(){
   canvas.position(windowWidth/2 - width/2, windowHeight/2 - height/2);
   board.solve();
@@ -23,5 +22,4 @@ function draw(){
   }
 
   board.show();
-  count++;
 }
