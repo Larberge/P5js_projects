@@ -68,7 +68,6 @@ class Board{
 
     c++;
 
-
     // if(c == 3){
     //   noLoop();
     // }
@@ -132,11 +131,16 @@ class Board{
             }
           }
         }
+        //If there is only one option in the grid for n, place n in that grid
         if(boxesThatCanHoldN.length == 1){
           boxesThatCanHoldN[0].number = n;
           boxesThatCanHoldN[0].options = [];
           boxesThatCanHoldN[0].bc = color(255,255,0,100); //yellow
         }
+
+        //If there are several boxes in the grid that can hold n AND thay are
+        //in the same row: Loop through the row and check the boxes that are
+        //not in the same grid. If they have n in their options, remove n the options.
         if(boxesThatCanHoldN.length > 1){
           let res = this.areInSameRow(boxesThatCanHoldN); //checks if boxes that can hold n are in the same row
           let inSameRow = res[0]; //will be true or false
