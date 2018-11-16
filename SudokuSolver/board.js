@@ -63,12 +63,12 @@ class Board{
   solve(){
     let dontTryHarder = this.adjustBoxOptions();
     this.solveGrids();
-    this.solveRows();
-    this.solveCols();
+    //this.solveRows();
+    //this.solveCols();
     c++;
-    // if(c == 10){
-    //   noLoop();
-    // }
+    if(c == 3){
+      noLoop();
+    }
 
 
     if(! dontTryHarder){
@@ -95,10 +95,30 @@ class Board{
           boxesThatCanHoldN[0].bc = color(255,255,0,100); //yellow
         }
         else{
-          //check if the boxes that can hold n er in the same col or row
-          if(this.areInSameRow(boxesThatCanHoldN)){
-
-          }
+        //   let res = this.areInSameRow(boxesThatCanHoldN);
+        //   // if(res[0] == true){
+        //   //   console.log(n);
+        //   //   console.log(boxesThatCanHoldN);
+        //   //   noLoop();
+        //   // }
+        //   let inSameRow = res[0]; //check if the boxes that can hold n er in the same col or row
+        //   let index = res[1];
+        //   if(inSameRow){
+        //     let boxesInRow = this.getBoxesInRow(index);
+        //     for(let box of boxesInRow){
+        //       if(box.gridNum != gridNum){
+        //         if(box.options.includes(n)){
+        //           let i = box.options.indexOf(n);
+        //           box.options.splice(i, 1);
+        //           // if(box.options.length == 1){
+        //           //   box.number = box.options[0];
+        //           //   box.options = [];
+        //           //   box.bc = color(255,255,0,100); //yellow
+        //           // }
+        //         }
+        //       }
+        //     }
+        //   }
         }
       }
     this.adjustBoxOptions();
@@ -223,6 +243,7 @@ class Board{
   }
 
   areInSameRow(listOfBoxes){
+    let index = null;
     for(let row of this.boxes){
       let i = 0;
       for(let box of listOfBoxes){
@@ -230,11 +251,12 @@ class Board{
           i++;
         }
       }
-      if(i = listOfBoxes.length){
-        return true;
+      if(i == listOfBoxes.length){
+        index = this.boxes.indexOf(row);
+        return [true , index];
       }
     }
-    return false;
+    return [false, null];
   }
 
   show(){
