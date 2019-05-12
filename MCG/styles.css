@@ -1,0 +1,157 @@
+
+/*importing this so I can use the fontfamily i want.
+To work, a server must be running*/
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  min-height: 100vh;
+}
+
+body {
+   margin: 0;
+   background: radial-gradient(#333377, #0000EC);
+}
+
+.title {
+  color: #0d2531;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  font-size: 3em;
+}
+
+.game-info {
+  color: #1d2531;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 2em;
+  text-align: left;
+}
+
+.container{
+  /*Devides the container into columts of 4 with a gap of 10px.
+  Auto so it automaticly uses the whole width*/
+  display: grid;
+  grid-template-columns: repeat(4,auto);
+  grid-gap: 10px;
+  /*padding at start and the end*/
+  margin: 50px;
+  /*centers the content*/
+  justify-content: center;
+  perspective: 500px;
+}
+
+.information-container{
+  /*So the info-cont. is using the whole first row*/
+  grid-column: 1/-1;
+  /*display: flex so the text aligns side by side*/
+  display: flex;
+  /*justify-content so it's as much space between as possiple*/
+  justify-content: space-between;
+
+}
+
+.card {
+  transition: transform 500ms ease-in-out;
+
+  /*styling for the cards*/
+  height: 150px;
+  width: 110px;
+  text-align: center;
+  border-radius: 15px;
+  border-width: 1px;
+  display: flex;
+}
+
+.card.visible .card-back{
+  transform: rotateX(180deg);
+}
+
+.card.visible .card-front{
+  transform: rotateX(0deg);
+}
+
+.card-back{
+  border-style: solid;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: visible;
+  transform: rotateX(0deg);
+}
+
+.card-front{
+  border-style: solid;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  transform: rotateX(-180deg);
+}
+
+
+
+  .overlay-text{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    color: #1d1511;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.overlay-under-text{
+  font-size: .3em;
+
+}
+
+.overlay-text.visible{
+  display: flex;
+  flex-direction: column;
+  animation: overlay-grow 500ms forwards;
+}
+
+
+@keyframes overlay-grow {
+  from{
+    background-color: rgba(0,0,0,0);
+    font-size: 0;
+  }
+  to{
+    background-color: rgba(250,250,250,0.8);
+    font-size: 6em;
+  }
+}
+
+
+
+/*shrink animation. not in use.. somewhat bugy*/
+/*
+.overlay-text.shrink{
+  display: flex;
+  animation: overlay-shrink 500ms forwards;
+  justify-content: center;
+  align-items: center;
+}
+
+@@keyframes overlay-shrink{
+  from{
+    background-color: rgba(0,0,0,0.8);
+    font-size: 6em;
+  }
+  to{
+    background-color: rgba(0,0,0,0);
+    font-size: 0;
+  }
+}
+*/

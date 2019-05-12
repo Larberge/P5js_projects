@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="styles.css" rel="stylesheet">
+  <title>Memory Card Game</title>
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+  <script src="./libs/p5.js"></script>
+  <script src="./libs/p5.dom.js"></script>
+  <script src="sketch.js"></script>
+</head>
+
+
+<body>
+  <h1 class="title">Memory Card Game</h1>
+  <div class = "overlay-text visible " id="start-text">
+    Click to start
+  </div>
+  <div class = "overlay-text" id="end-text">
+    Victory!
+    <span class ".overlay-under-text" id="end-under-text">
+      Click to restart
+    </span>
+  </div>
+  <div class="container" id="cnt">
+    <div class="information-container">
+      <div class="game-info">
+        Score: <span id="current-score">0</span>
+      </div>
+      <div class="game-info">
+        Flips: <span id="current-flips">0</span>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+
+</html>
