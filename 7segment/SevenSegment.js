@@ -3,16 +3,18 @@ var y = 10;
 var w = 10;
 var h = 30;
 
-class SevenSegment{
-  constructor(){
+//A SevenSegment has 7 segments.
+//The segments are stored in a list
+class SevenSegment {
+  constructor() {
     this.listOfSeqs = [];
-    for(var i = 0; i < 7; i++){
+    for (var i = 0; i < 7; i++) {
       this.listOfSeqs.push(new Segment(i));
     }
   }
 
-  getListOfSeqs(){
+  //returns the list of segments
+  getListOfSeqs() {
     return this.listOfSeqs;
   }
-
 }

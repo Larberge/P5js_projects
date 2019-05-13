@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Memory Card Game</title>
+    <link href="styles.css" rel="stylesheet" />
+    <meta
+      name="viewport"
+      width="device-width,"
+      initial-scale="1.0,"
+      maximum-scale="1.0,"
+      user-scalable="0"
+    />
+    <script src="../libraries/p5.js"></script>
+    <script src="../libraries/p5.dom.js"></script>
+    <script src="sketch.js"></script>
+  </head>
+
+  <body>
+    <h1 class="title">Kabal</h1>
+
+    <!-- <div class = "overlay-text visible " id="start-text">
+        Click to start
+    </div>
+    <div class = "overlay-text" id="end-text">
+        Victory!
+        <span class ".overlay-under-text" id="end-under-text">
+            Click to restart
+        </span>
+    </div> -->
+
+    <div class="container" id="cont">
+      <div class="info_container">
+        <div class="game_info">Score: <span id="current-score">0</span></div>
+        <div class="game_info">Flips: <span id="current-flips">0</span></div>
+      </div>
+
+      <div class="board" id="brd">
+        <div class="upper_board" id="up_brd"></div>
+        <div class="lower_board" id="low_bord"></div>
+      </div>
+    </div>
+  </body>
+</html>
