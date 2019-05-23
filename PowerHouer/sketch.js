@@ -2,7 +2,7 @@ var cover;
 var container;
 var timer;
 var interval;
-var timeInSec = 3600;
+var timeInSec = 3610;
 var startSound;
 var halfWaySound;
 var finishedSound;
