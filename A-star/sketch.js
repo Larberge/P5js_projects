@@ -6,7 +6,7 @@ var closedSet = []; //vil inneholde alle spots som har blitt evaluert
 var start; //settes lik startspot
 var end; //settes lik stopSpot
 var w, h;
-var world = "board-2-2.txt";
+var world = "board-2-3.txt";
 var pretxt;
 var txt = [];
 var path = []; //Vil inneholde spotsene som medgår i den raskeste pathen
@@ -24,7 +24,11 @@ function setup() {
   for (var i = 0; i < pretxt.length; i++) {
     txt.push(pretxt[i].split(""));
   }
-  createCanvas(600, 300);
+  var cnv = createCanvas(800, 450);
+  let can_x = (windowWidth - width) / 2;
+  var can_y = (windowHeight - height) / 2;
+  cnv.position(can_x, can_y);
+
   rows = txt[1].length;
   cols = txt.length;
   w = width / rows;

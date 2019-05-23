@@ -1,9 +1,9 @@
 //this is the position of the top segment
 //every segment will be made according to this.
-var yRel = 50;
+var yRel = 70;
 var hRel = 120;
 var wRel = 15;
-var xRel = 200 - hRel / 2;
+var xRel = 800 / 2 - hRel / 2;
 
 //Each segment are created according to and int,
 //given as an argument called "type".

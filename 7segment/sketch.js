@@ -28,7 +28,10 @@ var digits = [
 //SevenSegments object.
 //Reducing the framerate to 3 so the animation is slower.
 function setup() {
-  createCanvas(400, 400);
+  var cnv = createCanvas(800, 450);
+  let can_x = (windowWidth - width) / 2;
+  var can_y = (windowHeight - height) / 2;
+  cnv.position(can_x, can_y);
   SevSeq = new SevenSegment();
   frameRate(3);
 }

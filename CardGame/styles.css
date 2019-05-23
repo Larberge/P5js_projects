@@ -3,37 +3,35 @@
 }
 
 html {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 body {
-  background: radial-gradient(#6363b1, #6a35c0);
+  background: radial-gradient(#049942, #35dd02);
   margin: 0;
-  overflow: hidden;
 }
 
 .title {
   text-align: center;
   font-size: 3em;
   color: azure;
-  background-color: aquamarine;
-  margin: 5px;
+  /* background-color: aquamarine; */
+  margin: 0;
 }
 
 .container {
-  height: 100vh;
+  height: 91vh;
   width: 100vw;
   margin: 0;
-  text-align: center;
-  overflow: auto;
-  background: lime; /* Just to visualize the extent */
+  /* background-color: rgb(222, 233, 63); Just to visualize the extent */
 }
 
 .info_container {
   display: flex;
   justify-content: space-evenly;
-  border: #121016;
-  background-color: aquamarine;
+  /* background: rgb(140, 10, 120); */
 }
 
 .game_info {
@@ -42,27 +40,11 @@ body {
   font-size: 2em;
 }
 
-.board {
-  display: grid;
-  grid-template-rows: 0.7fr 2fr;
-  height: 90%;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.upper_board {
-  background-color: rgb(147, 168, 147);
-  display: grid;
-  border: 2px dashed rgba(114, 186, 94, 0.35);
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.lower_board {
-  background-color: rgb(99, 98, 117);
+.rect {
+  height: 100px;
+  width: 100px;
+  background-color: blue;
+  display: flex;
 }
 
 .card {
@@ -73,4 +55,18 @@ body {
   border-width: 1px;
   display: flex;
   background: greenyellow;
+}
+
+.aceOfHeart {
+  background: rgb(165, 25, 43);
+}
+
+.aceOfDiamonds {
+}
+
+.aceOfClubs {
+  background: rgb(165, 25, 43);
+}
+
+.aceOfSpades {
 }

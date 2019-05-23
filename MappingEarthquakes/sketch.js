@@ -38,7 +38,7 @@ function setup() {
   for (var i = 1; i < earthquakes.length; i++) {
     let earthquakeData = earthquakes[i].split(/,/);
     let x = mercX(toRad(earthquakeData[2])) - cx;
-    let y = mercY(toRad(earthquakeData[1])) - cx;
+    let y = mercY(toRad(earthquakeData[1])) - cy;
     let mag = earthquakeData[4];
     let magMax = sqrt(pow(10, 10));
     mag = sqrt(pow(10, mag));
