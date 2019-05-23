@@ -2,7 +2,7 @@ var cover;
 var container;
 var timer;
 var interval;
-var timeInSec = 3610;
+var timeInSec = 1810;
 var startSound;
 var halfWaySound;
 var finishedSound;
@@ -60,12 +60,16 @@ function changeBC() {
 }
 
 function click() {
-  interval = setInterval(incrementTimer, 1000);
   startSound.play();
   cover.removeClass("visible");
-  cover.html("SHOTS!!");
+  setTimeout(kickStart, 4000);
 }
 
 function removeCover() {
   cover.removeClass("shake");
+}
+
+function kickStart() {
+  interval = setInterval(incrementTimer, 1000);
+  cover.html("SHOTS!!");
 }
